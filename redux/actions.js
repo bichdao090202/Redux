@@ -1,3 +1,2 @@
-var increment = {type:'increment'};
-
-export default increment;
+export const increment =  { type: "INCREMENT", count:6 }
+export const decrement =  { type: "DECREMENT"}

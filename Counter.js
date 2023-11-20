@@ -1,38 +1,27 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { connect, useDispatch } from 'react-redux';
 import React from 'react';
+import {useDispatch, useSelector } from 'react-redux';
+import { increment } from './redux/actions';
+import { decrement } from './redux/actions';
+import { View,Text } from 'react-native';
 
-const Counter = ({ count }) => {
-    const dispatch = useDispatch();;
-    return (
-        <View style={styles.container}>
-            <Text>{count}</Text>
-            <Pressable style={{ width: 60, height: 40, borderWidth: 1, borderColor: 'black', alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => {
-                    // store.dispatch(increment);
-                    // setCount(store.getState().count);
-                    dispatch({ type: 'increment' });
-                    console.log("count");
-                }}
-            >
-            </Pressable>
-        </View>
 
-    );
-};
+const Counter = () => {
+  var count = useSelector(state => state.count);
+  var dispatch = useDispatch();
 
-var mapStateToProps = (state) => ({
-    count: state.count
-})
 
-export default connect(mapStateToProps, null)(Counter);
+  const reset = () => {
+    dispatch({ type: "RESET" })
+  }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
 
+  return (
+    <View>
+      <Text>{count} <br /></Text>      
+      <button onClick={()=>dispatch(increment)}>Increment </button>
+      <button onClick={()=>dispatch(decrement)}> Decrement </button>
+      <button onClick={reset} >Reset </button>
+    </View>
+  )
+}
+export default Counter;

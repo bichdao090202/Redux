@@ -1,17 +1,25 @@
-var init = { count: 0 };
-const reducer = (state = init, action) => {
+const initialState = {
+  count: 0
+}
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'increment':
+    case "INCREMENT":
       return {
+        // ...state,
         count: state.count + 1
+        // count: action.count
       }
-    case 'subtract':
+    case "DECREMENT":
       return {
         count: state.count - 1
+      }
+    case "RESET":
+      return {
+        count: 0
       }
     default:
       return state;
   }
 }
-
 export default reducer;
