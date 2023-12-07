@@ -5,36 +5,27 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { axios } from 'axios';
-
+import axios from 'axios';
 
 const Stack = createNativeStackNavigator();
+const url = `https://653f17299e8bd3be29dfede0.mockapi.io/todos/`
 
 function Screen1({navigation}){
   const dispatch = useDispatch();
   var [todos,setTodos]=useState();
   var {data:todos} = useSelector(state=>state.todo)
-  const axios = require('axios');
 
   const getData =()=>{
-    fetch('https://653f17299e8bd3be29dfede0.mockapi.io/todos')
-    .then((res)=>res.json()).then((json)=> dispatch(todoAction.todoGet.fil(json)))
+    axios.get(url).then(res => dispatch(todoAction.todoGet.fil(res.data)))
   }
 
   const putData=(item)=>{
-    fetch(`https://653f17299e8bd3be29dfede0.mockapi.io/todos/${item.id}`,{
-      method:"PUT",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify(item)
-    })
+    axios.put(`${url}${item.id}`,item)
     setTodos([...todos])
   }
 
   const deleteData =(id)=> {
-    fetch(`https://653f17299e8bd3be29dfede0.mockapi.io/todos/${id}`,{
-      method:"DELETE",
-      headers:{"Content-Type":"application/json"},
-    }).then(()=>getData())
+    axios.delete(`${url}${id}`).then(()=>getData())
   }
 
   useEffect(()=>getData(),[])
@@ -53,7 +44,6 @@ function Screen1({navigation}){
       </FlatList>
       <button onClick={() => navigation.navigate("AddJob")}>Add Job</button>
     </View>
-
   )
 }
 
@@ -63,15 +53,9 @@ function Screen2({navigation}){
   var newJob;
 
   const addData = (job) => {
-    fetch(`https://653f17299e8bd3be29dfede0.mockapi.io/todos`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(job)
-    }).then(() => {
-      fetch('https://653f17299e8bd3be29dfede0.mockapi.io/todos')
-        .then((res) => res.json())
-        .then((json) => dispatch(todoAction.todoGet.fil(json)))
-    }).then(() => navigation.navigate("Home"))
+    axios.post(`${url}`,job)
+    .then(()=>axios.get(url).then(res => dispatch(todoAction.todoGet.fil(res.data))))
+    .then(() => navigation.navigate("Home"))
   }
 
   return (
