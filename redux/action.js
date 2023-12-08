@@ -4,5 +4,11 @@ export const todoAction ={
             type:"GET",
             payload:data
         })
+    },
+    user:{
+        fil:(data)=>({
+            type:"USER",
+            payload:data
+        })
     }
 }

@@ -1,0 +1,7 @@
+npm i npx -g --force 
+npx create-expo-app Counter
+npx expo install react-native-web@~0.19.6 react-dom@18.2.0 @expo/webpack-config@^19.0.0
+npm install @react-navigation/native @react-navigation/native-stack
+npm i react-redux redux
+npm install @reduxjs/toolkitnpm install @reduxjs/toolkit
+npm i axios
